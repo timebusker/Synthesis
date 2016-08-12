@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>aa.mine</groupId>
-			<artifactId>dubbo-facde</artifactId>
+			<artifactId>Synthesis-dubbo-faced</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
