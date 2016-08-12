@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:context="http://www.springframework.org/schema/context"
+     xmlns:aop="http://www.springframework.org/schema/aop"
+     xmlns:tx="http://www.springframework.org/schema/tx"
+     xmlns:task="http://www.springframework.org/schema/task"
+     xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context-3.1.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+         http://www.springframework.org/schema/task
+		 http://www.springframework.org/schema/task/spring-task-3.1.xsd"
+		 default-autowire="byName">
+
+	<!-- 引入外部的属性文件 -->
+	<context:property-placeholder location="classpath:jdbc/jdbc.properties"/>
+	
+	<!-- 配置c3p0连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	
+	<!-- 配置要扫描的包：扫描基于类的注解完成Bean的注册 -->
+	<!-- <context:component-scan base-package="aa.mine.Transaction.*" /> -->
+	<!-- 扫描采用注释的方式配置bean：在完成Bean的注册之后其完成Bean的成员方法或变量的注解-->
+	<!-- <context:annotation-config /> -->
+	<!-- 通常在使用前者不在使用后者 -->
+	
+				
+	<bean id="accountService" class="aa.mine.Transaction.demo4.Service.AccountService">
+		<property name="accountDAO" ref="accountDAO" />
+	</bean>
+	
+	<bean id="accountDAO" class="aa.mine.Transaction.demo4.dao.accountDAO">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- ==================================4.使用注解配置声明式事务============================================ -->
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+</beans>
