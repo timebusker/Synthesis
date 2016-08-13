@@ -1,0 +1,132 @@
+1. ExcelUtils由于代码较多，已经分开到三个类中，这个类已经不再推荐使用
+	具体使用如下三个类：
+	@see aa.mine.superutil.thirdparty.excel.BeanToExcel
+	@see aa.mine.superutil.thirdparty.excel.ExcelToBean
+	@see aa.mine.superutil.thirdparty.excel.CustomizeToExcel
+2.BeanToExcel是根据注解，将数据到处到Excel中
+
+3.ExcelToBean是导入Excel，转化成相应的Bean
+
+4.CustomizeToExcel这个类中的方法是新增的，支持自定义表头，主要有四个方法
+	/**
+	 * 获取工作簿对象
+	 * @param columns List<ExcelColumn> 列定义
+	 * @param list List<Map<String, Object>> 数据
+	 * @return Workbook
+	 * @throws IOException
+	 */
+	static org.apache.poi.ss.usermodel.Workbook	getWorkbook(List<ExcelColumn> columns, List<Map<String,Object>> list)
+	/**
+	 * 获取工作簿对象
+	 * @param columnsJsonArray String 列定义，String类型的JSON数组
+	 * @param list List<Map<String, Object>> 数据
+	 * @return Workbook
+	 * @throws IOException
+	 */
+	static org.apache.poi.ss.usermodel.Workbook	getWorkbook(String columnsJsonArray, List<Map<String,Object>> list) 
+	/**
+	 * 写入到文件
+	 * @param columns List<ExcelColumn> 列定义
+	 * @param list List<Map<String, Object>> 数据
+	 * @param filePath 文件路径
+	 * @throws Exception
+	 */
+	static void	toFile(List<ExcelColumn> columns, List<Map<String,Object>> list, String filePath) 
+	/**
+	 * 写入到文件
+	 * @param columnsJsonArray String 列定义
+	 * @param list List<Map<String, Object>> 数据
+	 * @param filePath 文件路径
+	 * @throws Exception
+	 */
+	static void	toFile(String columnsJsonArray, List<Map<String,Object>> list, String filePath) 
+
+5. ExcelColumn类包含了title,field,width,children定义
+	
+	//列名
+	private String title;
+	//列对应的数据中的field
+	private String field;
+	//列宽
+	private int width=0;
+	//子列
+	private List<ExcelColumn> children;
+
+6. CustomizeToExcel具体使用示例代码
+	注意：
+		6.1 日期格式默认为yyyy-MM-dd HH:mm:ss
+		6.2 width宽度定义只对叶子节点有效
+		6.3 field定义只对叶子节点有效
+		6.4 默认固定列头
+		6.5 使用步骤
+			6.5.1 定义列头
+			6.5.2 定义数据List<Map<String,Object>>类型
+		6.6 关于合并列的说明
+			合并列，就是子节点的集合
+
+			节点A
+			    |-children:[{节点A1},{节点A2}]
+			    |-field
+			    |-width
+			    |-title
+					
+
+
+
+	示例代码：
+	public static void main(String[] args) throws Exception {
+
+		List<ExcelColumn> columns = new ArrayList<ExcelColumn>();
+
+		ExcelColumn a = new ExcelColumn("A", "A", 20);
+
+		ExcelColumn b = new ExcelColumn("B", "B", 20);
+
+		List<ExcelColumn> columns2 = new ArrayList<ExcelColumn>();
+		columns2.add(new ExcelColumn("C", "C", 30));
+		columns2.add(new ExcelColumn("D", "D", 30));
+		columns2.add(new ExcelColumn("E", "E", 30));
+
+		b.setChildren(columns2);
+
+		columns.add(b);
+
+		// a.setChildren(columns);
+
+		List<ExcelColumn> cs = new ArrayList<ExcelColumn>();
+		cs.add(a);
+		cs.add(new ExcelColumn("F", "F", 12));
+		cs.add(new ExcelColumn("G", "G", 22));
+		cs.add(b);
+
+		// 造数据
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("C", "CCC");
+		map1.put("D", 22);
+		map1.put("E", new Date());
+		list.add(map1);
+
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		map2.put("C", "11");
+		map2.put("D", 321);
+		map2.put("E", new Date());
+		list.add(map2);
+
+		Map<String, Object> map3 = new HashMap<String, Object>();
+		map3.put("C", "3333");
+		map3.put("D", 'd');
+		map3.put("E", new BigDecimal(1111));
+		list.add(map3);
+
+		list.add(map1);
+		list.add(map2);
+		list.add(map3);
+
+		CustomizeToExcel
+				.toFile("[{\"title\":\"A\",\"field\":\"A\",\"width\":22},{\"title\":\"B\",\"field\":\"B\",\"width\":20,\"children\":[{\"title\":\"C\",\"field\":\"C\",\"width\":30},{\"title\":\"D\",\"field\":\"D\",\"width\":30},{\"title\":\"E\",\"field\":\"E\",\"width\":30,\"children\":[{\"title\":\"X\",\"field\":\"X\",\"width\":22},{\"title\":\"Y\",\"field\":\"Y\",\"width\":22,\"children\":[{\"title\":\"EE\",\"field\":\"EE\",\"width\":22},{\"title\":\"SS\",\"field\":\"SS\",\"width\":22,\"children\":[{\"title\":\"uu\",\"field\":\"uu\",\"width\":22},{\"title\":\"i\",\"field\":\"i\",\"width\":22},{\"title\":\"o\",\"field\":\"o\",\"width\":22}]}]}]}]},{\"title\":\"Z\",\"field\":\"Z\",\"width\":22}]",
+						list, "D:\\x1.xlsx");
+		CustomizeToExcel.toFile(columns, list, "D:\\x2.xlsx");
+
+	}

@@ -40,11 +40,18 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 		</dependency>
+		<!-- 
+		<dependency> 
+		    <groupId>com.kmair</groupId> 
+		    <artifactId>dubbo</artifactId> 
+			<version>2.5.3</version> 
+			<classifier>KYE1</classifier> 
+		</dependency> 
+		-->
 		<dependency>
-			<groupId>com.kmair</groupId>
+			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
 			<version>2.5.3</version>
-			<classifier>KYE1</classifier>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
