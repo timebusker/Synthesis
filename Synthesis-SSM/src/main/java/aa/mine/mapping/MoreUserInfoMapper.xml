@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- 高级结果映射 -->
+
+<!-- namespace属性与声明接口Dao一致，Mapper.xml本质就是Mybatis对Dao接口的具体实现类 -->
+<mapper namespace="aa.mine.dao.MoreUserInfoMapper">
+
+    <!-- 
+    resultMap： ID的属性是唯一标识，type映射javabean对象
+	column:对应着数据库操作字段值
+	property：对应javabean对象的属性
+	jdbcType：数据库数据类型，可省略
+	 -->
+	<resultMap id="BaseResultMap" type="aa.mine.model.Tuser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="nick" property="nick" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="createDate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="updateDate" property="updatedate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 
+	extends:使用继承完成对返回对象ResultMap的扩展
+	collection：作为结果集的子标签，映射ResultMap对象的集合类型（本意：集合）
+	collection property属性依然对应着javabean内的扩展属性
+	collection javaType设置扩展属性的数据类型，map、list、object
+	collection ofType绑定映射的javabean对象属性（就是property所属的数据类型）
+	association 
+	 -->
+	<resultMap type="aa.mine.model.MoreUserInfo" id="mui" extends="BaseResultMap">
+		<collection property="lisUserRole" javaType="list" ofType="aa.mine.model.UserRole">
+			<!-- <id column="user_role_id" property="id" jdbcType="INTEGER" />
+			<result column="uesr_id" property="uesrId" jdbcType="INTEGER" />
+			<result column="role_id" property="roleId" jdbcType="INTEGER" /> -->
+			<!-- <association property="role" javaType="aa.mine.model.Trole">
+				<id column="role_id" property="id" jdbcType="INTEGER" />
+				<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+				<result column="allowable_res" property="allowableRes" jdbcType="VARCHAR" />
+				<result column="unallowable_res" property="unallowableRes" jdbcType="VARCHAR" />
+			</association> -->
+			<collection property="role" javaType="list" ofType="aa.mine.model.Trole"> 
+				<id column="role_id" property="id" jdbcType="INTEGER" /> 
+				<result column="role_name" property="roleName" jdbcType="VARCHAR" /> 
+				<result column="allowable_res" property="allowableRes" jdbcType="VARCHAR" /> 
+				<result column="unallowable_res" property="unallowableRes" jdbcType="VARCHAR" /> 
+			</collection>
+		</collection>
+	</resultMap>
+
+	<select id="getALLMUI" resultMap="mui">
+		SELECT
+		t_user.id,
+		t_user.`name`,
+		t_user.nick,
+		t_user.`password`,
+		t_user.createDate,
+		t_user.updateDate,
+		user_role.id user_role_id,
+		user_role.uesr_id,
+		user_role.role_id,
+		t_role.id role_id,
+		t_role.role_name,
+		t_role.allowable_res,
+		t_role.unallowable_res
+		FROM
+		user_role
+		INNER JOIN t_user ON
+		user_role.uesr_id = t_user.id
+		INNER JOIN t_role ON user_role.role_id =
+		t_role.id
+	</select>
+
+	<select id="getMUI" resultMap="mui">
+		SELECT
+		t_user.id,
+		t_user.`name`,
+		t_user.nick,
+		t_user.`password`,
+		t_user.createDate,
+		t_user.updateDate,
+		user_role.id user_role_id,
+		user_role.uesr_id,
+		user_role.role_id,
+		t_role.id role_id,
+		t_role.role_name,
+		t_role.allowable_res,
+		t_role.unallowable_res
+		FROM
+		user_role
+		INNER JOIN t_user ON
+		user_role.uesr_id = t_user.id
+		INNER JOIN t_role ON user_role.role_id =
+		t_role.id
+		WHERE t_user.id = #{id,jdbcType=INTEGER}
+	</select>
+</mapper>

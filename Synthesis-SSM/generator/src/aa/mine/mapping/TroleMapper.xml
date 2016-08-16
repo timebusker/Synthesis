@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="aa.mine.dao.TroleMapper" >
+  <resultMap id="BaseResultMap" type="aa.mine.model.Trole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="allowable_res" property="allowableRes" jdbcType="VARCHAR" />
+    <result column="unallowable_res" property="unallowableRes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_name, allowable_res, unallowable_res
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="aa.mine.model.Trole" >
+    insert into t_role (id, role_name, allowable_res, 
+      unallowable_res)
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{allowableRes,jdbcType=VARCHAR}, 
+      #{unallowableRes,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="aa.mine.model.Trole" >
+    insert into t_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="allowableRes != null" >
+        allowable_res,
+      </if>
+      <if test="unallowableRes != null" >
+        unallowable_res,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="allowableRes != null" >
+        #{allowableRes,jdbcType=VARCHAR},
+      </if>
+      <if test="unallowableRes != null" >
+        #{unallowableRes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="aa.mine.model.Trole" >
+    update t_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="allowableRes != null" >
+        allowable_res = #{allowableRes,jdbcType=VARCHAR},
+      </if>
+      <if test="unallowableRes != null" >
+        unallowable_res = #{unallowableRes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="aa.mine.model.Trole" >
+    update t_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      allowable_res = #{allowableRes,jdbcType=VARCHAR},
+      unallowable_res = #{unallowableRes,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

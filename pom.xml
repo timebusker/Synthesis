@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>aa.mine</groupId>
 	<artifactId>Synthesis</artifactId>
@@ -20,9 +21,10 @@
 		<module>Synthesis-dubbo-consumer</module>
 		<module>Synthesis-dubbo-faced</module>
 		<module>Synthesis-dubbo-provider</module>
-    <module>Systhesis-common-utils</module>
-    <module>Synthesis-sequence-Id</module>
-  </modules>
+		<module>Systhesis-common-utils</module>
+		<module>Synthesis-sequence-Id</module>
+		<module>Synthesis-SSM</module>
+	</modules>
 
 
 	<properties>
@@ -175,6 +177,12 @@
 				<artifactId>commons-dbcp</artifactId>
 				<version>1.4</version>
 			</dependency>
+			<!-- 数据源配置 3 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>0.2.23</version>
+			</dependency>
 
 			<!-- 配置日志依赖 START -->
 			<dependency>
@@ -199,6 +207,30 @@
 				<version>1.5.2</version>
 			</dependency>
 			<!-- 添加任务调度的依赖 END -->
+
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.15</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.13</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>3.0-alpha-1</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
