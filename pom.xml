@@ -24,6 +24,7 @@
 		<module>Systhesis-common-utils</module>
 		<module>Synthesis-sequence-Id</module>
 		<module>Synthesis-SSM</module>
+		<module>Synthesis-SpringMVC</module>
 	</modules>
 
 
@@ -75,9 +76,13 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-web</artifactId>
-				<version>4.2.1.RELEASE</version>
+				<version>${org.springframework.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${org.springframework.version}</version>
+			</dependency>
 			<!-- AOP jar -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -246,6 +251,19 @@
 				<configuration>
 					<skip>true</skip>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.2.v20140723</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
