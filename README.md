@@ -1,4 +1,4 @@
-## Spring Synthesis——spring杂乱无序的集合体
+## Spring Synthesis—— Spring 杂乱无序的集合体
 ## [我的blog地址：https://www.timebusker.top/，持续更新.....](https://timebusker.github.io/)
 
 -----------------
