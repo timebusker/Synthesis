@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:aop="http://www.springframework.org/schema/aop"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"
+	   default-autowire="byName" default-lazy-init="false">
+	
+	<!-- 配置要扫描的包：扫描基于类的注解完成Bean的注册 -->
+	<context:component-scan base-package="com.timebusker" />
+	<!-- 扫描采用注释的方式配置bean：在完成Bean的注册之后其完成Bean的成员方法或变量的注解-->
+	<context:annotation-config />
+	<!-- 通常在使用前者不在使用后者 -->
+	
+	<!-- 启用@AspectJ支持 -->
+	<aop:aspectj-autoproxy/>
+	
+	<!-- proxy-target-class默认"false",更改为"ture" 使用CGLib动态代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- 引入外部的属性文件 -->
+	<!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+		
+</beans>
